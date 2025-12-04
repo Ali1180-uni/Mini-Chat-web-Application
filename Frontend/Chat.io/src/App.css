@@ -1,0 +1,265 @@
+/* Import Google Font 'Plus Jakarta Sans' with weights 400-700 for modern typography */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+/* ============================================
+   1. CSS RESET & ROOT FIX
+   ============================================ */
+
+/* Universal selector - applies to ALL elements */
+* {
+  margin: 0;              /* Remove default margin from all elements */
+  padding: 0;             /* Remove default padding from all elements */
+  box-sizing: border-box; /* Include padding & border in element's total width/height */
+}
+
+/* Target the root HTML and body elements */
+html, body {
+  height: 100%;           /* Make html & body fill entire viewport height */
+  width: 100%;            /* Make html & body fill entire viewport width */
+  overflow: hidden;       /* Hide scrollbars - prevents double scrollbar issue */
+}
+
+/* Body element - the visible page container */
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif; /* Set primary font, fallback to sans-serif */
+  background-color: #f3f4f6;                    /* Light gray fallback background color */
+  
+  /* Create a mesh gradient background with 3 overlapping radial gradients */
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%),   /* Dark purple at top-left */
+    radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), /* Blue at top-center */
+    radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);/* Pink at top-right */
+  background-size: cover;   /* Stretch background to cover entire viewport */
+  display: flex;            /* Enable flexbox layout for centering */
+  justify-content: center;  /* Center child elements horizontally */
+  align-items: center;      /* Center child elements vertically */
+}
+
+/* React mounts the app inside #root div - we need to make it full size */
+#root {
+  display: flex;            /* Enable flexbox on the React root container */
+  justify-content: center;  /* Center the app horizontally */
+  align-items: center;      /* Center the app vertically */
+  width: 100%;              /* Take full width of parent (body) */
+  height: 100%;             /* Take full height of parent (body) */
+}
+
+/* ============================================
+   2. MAIN CHAT CONTAINER
+   ============================================ */
+
+/* The main white card that holds the entire chat application */
+.content {
+  width: 100vh;             /* Width based on viewport height for landscape ratio */
+  height: 650px;            /* Fixed height of 650 pixels */
+  max-width: 95vw;          /* On small screens, don't exceed 95% of viewport width */
+  max-height: 90vh;         /* On small screens, don't exceed 90% of viewport height */
+  
+  background: rgba(255, 255, 255, 0.95); /* White background with 95% opacity */
+  backdrop-filter: blur(20px);           /* Blur anything behind (glassmorphism) */
+  border-radius: 24px;                   /* Rounded corners for modern look */
+  
+  /* Layered box shadow for a "floating card" effect */
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),  /* Large soft shadow below */
+    0 10px 10px -5px rgba(0, 0, 0, 0.04); /* Smaller, tighter shadow */
+  
+  display: flex;            /* Use flexbox to arrange children */
+  flex-direction: column;   /* Stack children vertically */
+  overflow: hidden;         /* Hide any overflowing content */
+  position: relative;       /* Establish positioning context */
+  border: 1px solid rgba(255, 255, 255, 0.5); /* Subtle white border */
+}
+
+/* ============================================
+   3. HEADER SECTION
+   ============================================ */
+
+/* Top header bar containing title and status badge */
+.chat-header {
+  padding: 20px 30px;       /* 20px top/bottom, 30px left/right spacing */
+  display: flex;            /* Flexbox to align title and status */
+  align-items: center;      /* Vertically center the items */
+  justify-content: space-between; /* Push title to left, status to right */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* Very subtle bottom border */
+  background: white;        /* Solid white background */
+}
+
+/* The "Chat.io" title text */
+.chat-header h1 {
+  font-size: 1.25rem;       /* 20px font size (1.25 x 16px base) */
+  font-weight: 700;         /* Bold weight */
+  color: #111827;           /* Very dark gray, almost black */
+  letter-spacing: -0.5px;   /* Slightly tighter letter spacing for modern look */
+}
+
+/* The green "By Ali" status badge */
+.chat-header .status {
+  font-size: 0.75rem;       /* 12px - small text for badge */
+  font-weight: 600;         /* Semi-bold */
+  color: #059669;           /* Green text color */
+  background: #d1fae5;      /* Light green background */
+  padding: 6px 14px;        /* Internal spacing */
+  border-radius: 999px;     /* Fully rounded pill shape */
+  text-transform: uppercase;/* Convert text to UPPERCASE */
+  letter-spacing: 0.5px;    /* Slightly wider letter spacing */
+}
+
+/* ============================================
+   4. CHAT MESSAGES AREA
+   ============================================ */
+
+/* Scrollable container that holds all chat messages */
+.chatBox {
+  flex: 1;                  /* Take up all remaining vertical space */
+  padding: 30px;            /* 30px spacing on all sides */
+  overflow-y: auto;         /* Enable vertical scrolling when messages overflow */
+  background: #fff;         /* White background */
+  display: flex;            /* Flexbox for message layout */
+  flex-direction: column;   /* Stack messages vertically */
+  gap: 16px;                /* 16px space between each message */
+}
+
+/* Custom scrollbar styling (Chrome, Safari, Edge) */
+.chatBox::-webkit-scrollbar {
+  width: 6px;               /* Thin 6px wide scrollbar */
+}
+
+/* The draggable part of the scrollbar */
+.chatBox::-webkit-scrollbar-thumb {
+  background-color: #e5e7eb;/* Light gray scrollbar color */
+  border-radius: 99px;      /* Fully rounded scrollbar */
+}
+
+/* ============================================
+   5. MESSAGE BUBBLES (iMessage Style)
+   ============================================ */
+
+/* Wrapper for each message - controls left/right alignment */
+.message-wrapper {
+  display: flex;            /* Flexbox for alignment control */
+  width: 100%;              /* Take full width of chat area */
+}
+
+/* My messages align to the RIGHT side */
+.my-message {
+  justify-content: flex-end;/* Push bubble to the right */
+}
+
+/* Other people's messages align to the LEFT side */
+.other-message {
+  justify-content: flex-start; /* Keep bubble on the left */
+}
+
+/* The actual message bubble containing the text */
+.message-bubble {
+  max-width: 60%;           /* Bubble never exceeds 60% of chat width */
+  padding: 12px 18px;       /* Internal padding for text */
+  position: relative;       /* For potential pseudo-elements (tails, etc.) */
+  font-size: 0.95rem;       /* Slightly smaller than base font */
+  line-height: 1.5;         /* 1.5x line height for readability */
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Subtle shadow for depth */
+}
+
+/* MY MESSAGE BUBBLE - Blue/Purple gradient */
+.my-message .message-bubble {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); /* Indigo gradient */
+  color: white;             /* White text on dark background */
+  border-radius: 20px 20px 4px 20px; /* Rounded except bottom-right (speech tail) */
+}
+
+/* OTHER'S MESSAGE BUBBLE - Light gray */
+.other-message .message-bubble {
+  background-color: #f3f4f6;/* Light gray background */
+  color: #1f2937;           /* Dark gray text */
+  border-radius: 20px 20px 20px 4px; /* Rounded except bottom-left (speech tail) */
+}
+
+/* Username label above the message */
+.sender-name {
+  font-size: 0.7rem;        /* Very small text (11px) */
+  font-weight: 600;         /* Semi-bold */
+  margin-bottom: 4px;       /* Space between name and message */
+  display: block;           /* Force new line after name */
+  color: #6b7280;           /* Medium gray color */
+}
+
+/* Hide my own username - I know it's me! */
+.my-message .sender-name { 
+  display: none;            /* Completely hide the element */
+}
+
+/* ============================================
+   6. INPUT AREA (Bottom Message Bar)
+   ============================================ */
+
+/* Container for the input form */
+.txtInput {
+  padding: 20px 30px;       /* Spacing around the form */
+  background: white;        /* White background */
+  border-top: 1px solid rgba(0, 0, 0, 0.05); /* Subtle top border separator */
+}
+
+/* The form element containing input + button */
+.txtInput form {
+  display: flex;            /* Flexbox to align input and button */
+  gap: 12px;                /* Space between input and button */
+  background: #f9fafb;      /* Very light gray background */
+  padding: 6px;             /* Small internal padding */
+  border-radius: 99px;      /* Fully rounded pill shape */
+  border: 1px solid #e5e7eb;/* Light gray border */
+  transition: all 0.2s;     /* Smooth transition for focus state */
+}
+
+/* When user clicks/focuses inside the form */
+.txtInput form:focus-within {
+  border-color: #6366f1;    /* Change border to indigo/purple */
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); /* Add glowing ring effect */
+}
+
+/* The text input field */
+.txtInput input {
+  flex: 1;                  /* Take all available width */
+  border: none;             /* Remove default border */
+  background: transparent;  /* Transparent - show form's background */
+  padding: 12px 20px;       /* Internal text padding */
+  font-family: inherit;     /* Use same font as parent */
+  font-size: 0.95rem;       /* Slightly smaller text */
+  outline: none;            /* Remove focus outline (we style form instead) */
+  color: #111;              /* Near-black text color */
+}
+
+/* The circular send button */
+.txtInput button {
+  background: #4f46e5;      /* Indigo/purple background */
+  border: none;             /* Remove default border */
+  width: 44px;              /* Fixed width */
+  height: 44px;             /* Fixed height (makes it a circle) */
+  border-radius: 50%;       /* Perfect circle */
+  display: flex;            /* Flexbox to center the icon */
+  align-items: center;      /* Center icon vertically */
+  justify-content: center;  /* Center icon horizontally */
+  color: white;             /* White icon color */
+  cursor: pointer;          /* Show hand cursor on hover */
+  transition: transform 0.2s; /* Smooth scale animation */
+}
+
+/* Button hover effect */
+.txtInput button:hover {
+  transform: scale(1.05);   /* Grow slightly larger */
+  background: #4338ca;      /* Darker purple on hover */
+}
+
+/* ============================================
+   7. RESPONSIVE DESIGN (Mobile/Tablet)
+   ============================================ */
+
+/* When screen width is 768px or less (tablets/phones) */
+@media (max-width: 768px) {
+  .content {
+    width: 100%;            /* Take full screen width */
+    height: 100%;           /* Take full screen height */
+    border-radius: 0;       /* Remove rounded corners - full screen */
+    border: none;           /* Remove border for cleaner look */
+  }
+}
