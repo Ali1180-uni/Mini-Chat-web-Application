@@ -29,10 +29,30 @@ body {
     radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%),   /* Dark purple at top-left */
     radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), /* Blue at top-center */
     radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);/* Pink at top-right */
-  background-size: cover;   /* Stretch background to cover entire viewport */
+  background-size: 400% 400%;   /* Make background larger for animation movement */
   display: flex;            /* Enable flexbox layout for centering */
   justify-content: center;  /* Center child elements horizontally */
   align-items: center;      /* Center child elements vertically */
+  animation: gradientShift 15s ease infinite; /* Animate background colors slowly */
+}
+
+/* Keyframes for smooth gradient color shifting animation */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;    /* Start position */
+  }
+  25% {
+    background-position: 50% 100%;  /* Move to bottom-center */
+  }
+  50% {
+    background-position: 100% 50%;  /* Move to right-center */
+  }
+  75% {
+    background-position: 50% 0%;    /* Move to top-center */
+  }
+  100% {
+    background-position: 0% 50%;    /* Back to start (seamless loop) */
+  }
 }
 
 /* React mounts the app inside #root div - we need to make it full size */
