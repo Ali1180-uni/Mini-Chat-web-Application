@@ -4,14 +4,27 @@ const { createServer } = require('node:http'); // Import createServer from node:
 const app = express(); // Initialize Express app
 const server = createServer(app); // Create HTTP server using Express app
 
-const io = require('socket.io')(server, { // Adding CORS configuration
+// CORS configuration for production
+const FRONTEND_URL = process.env.FRONTEND_URL || '*';
+
+const io = require('socket.io')(server, {
     cors: {
-        origin: '*', // Not Recommended for Production
+        origin: FRONTEND_URL === '*' ? '*' : FRONTEND_URL.split(','),
+        methods: ['GET', 'POST'],
+        credentials: true
     },
 });
 
+// Health check endpoint for deployment
+app.get('/', (req, res) => {
+    res.json({ status: 'ok', message: 'Chat.io Backend Running' });
+});
+
+app.get('/health', (req, res) => {
+    res.json({ status: 'healthy', uptime: process.uptime() });
+});
+
 io.on('connection', (socket) => { // Listen for client connections
-    console.log('What is Socket', socket);
     console.log('A user connected:', socket.id); // Log when a user connects
 
     socket.on('chat', (payload) => {
@@ -23,13 +36,8 @@ io.on('connection', (socket) => { // Listen for client connections
     });
 });
 
-// Not using Express server thats why we use server.listen
-// app.listen(4000, () => { // Start Express app on port 4000
-//     console.log('Express server is running on http://localhost:4000'); // Log server start message
-// });
-
-
-const PORT = 3000; // Define the port to listen on
-server.listen(PORT, () => { // Start the server
-    console.log(`Server is running on http://localhost:${PORT}`); // Log server start message
+// Use environment variable PORT for deployment (Render, Railway, etc.)
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is running on port ${PORT}`);
 });

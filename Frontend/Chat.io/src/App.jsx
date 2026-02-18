@@ -4,7 +4,9 @@ import { nanoid } from "nanoid";
 import InputBox from "./components/inputBox";
 import ChatWindow from "./components/chatWindow";
 
-const socket = io.connect("http://localhost:3000");
+// Use environment variable for backend URL (for production deployment)
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+const socket = io.connect(BACKEND_URL);
 const username = nanoid(4);
 
 function App() {

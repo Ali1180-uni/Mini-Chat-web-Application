@@ -6,6 +6,16 @@ A modern real-time chat application built with **React**, **Socket.IO**, and **E
 ![Socket.IO](https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socketdotio)
 ![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)
+
+---
+
+## 🚀 Deployment
+
+**Frontend**: Deploy on [Netlify](https://netlify.com)  
+**Backend**: Deploy on [Render](https://render.com) (WebSocket support)
+
+📖 **See [DEPLOYMENT.md](DEPLOYMENT.md) for full deployment guide**
 
 ---
 
